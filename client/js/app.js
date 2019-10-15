@@ -38,7 +38,7 @@ class EventsManager {
         		center: 'title',
         		right: 'month,agendaWeek,basicDay'
         	},
-        	defaultDate: '2016-11-01',
+        	defaultDate: '2019-10-01',
         	navLinks: true,
         	editable: true,
         	eventLimit: true,
@@ -84,6 +84,9 @@ class EventsManager {
         form_data.append('end_hour', "")
         form_data.append('start_hour', "")
       }
+	  
+
+		
       $.ajax({
         url: '../server/new_event.php',
         dataType: "json",
@@ -94,7 +97,7 @@ class EventsManager {
         type: 'POST',
         success: (data) =>{
           if (data.msg=="OK") {
-            alert('Se ha añadido el evento exitosamente')
+            alert('Se ha añadido el evento exitosamente -' + data.allDay)
             if (document.getElementById('allDay').checked) {
               $('.calendario').fullCalendar('renderEvent', {
                 title: $('#titulo').val(),
@@ -165,14 +168,15 @@ class EventsManager {
         end_date = end.substr(0,10)
         start_hour = start.substr(11,8)
         end_hour = end.substr(11,8)
-
-
+		
+	
         form_data.append('id', id)
         form_data.append('start_date', start_date)
         form_data.append('end_date', end_date)
         form_data.append('start_hour', start_hour)
         form_data.append('end_hour', end_hour)
 
+		
         $.ajax({
           url: '../server/update_event.php',
           dataType: "json",
