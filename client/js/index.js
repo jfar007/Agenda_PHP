@@ -17,8 +17,8 @@ class Login {
 
   sendForm(){
     let form_data = new FormData();
-    form_data.append('username', $('#user').val())
-    form_data.append('password', $('#password').val())
+    form_data.append('usuario', $('#user').val());
+    form_data.append('contrasena', $('#password').val());
     $.ajax({
       url: '../server/check_login.php',
       dataType: "json",
@@ -27,16 +27,23 @@ class Login {
       contentType: false,
       data: form_data,
       type: 'POST',
-      success: function(php_response){
-        if (php_response.msg == "OK") {
-          window.location.href = 'main.html';
-        }else {
-          alert(php_response.msg);
-        }
-      },
-      error: function(){
+      success: (php_response) =>{
+				this.correct(php_response);
+		},
+      error: function(jqXHR, textStatus, errorThrown){
         alert("error en la comunicación con el servidor");
+		console.log(jqXHR);
+		console.log(textStatus);
+		console.log(errorThrown);
       }
     })
   }
+
+	correct(php_response){
+	  if (php_response.msg == "OK") {
+           window.location.href = 'main.html';
+      }else {
+         alert(php_response.msg);
+       }
+	}
 }
